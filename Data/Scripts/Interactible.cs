@@ -45,8 +45,8 @@ public class Interactible : MonoBehaviour
         CastRay();
         TakeItem();
         ActivateRotationItem();
-        RotationItem();
         ChangeRotationAxis();
+        RotationItem();
     }
 
     //Отрисовка статического объекта на экране(прицел)
