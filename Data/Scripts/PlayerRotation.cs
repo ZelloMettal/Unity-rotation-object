@@ -17,7 +17,7 @@ public class PlayerRotation : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false; //Скрываем курсор
+        Cursor.visible = false;     //Скрываем курсор
         Cursor.lockState = CursorLockMode.Locked;   //Блокируем движение курсора
     }
   
