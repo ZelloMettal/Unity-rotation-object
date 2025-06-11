@@ -31,11 +31,6 @@ public class Interactible : MonoBehaviour
     private Cube _tempCube; //Контейнер хранение объекта
     private float _directionMouseScroll; //Направление скролла мыши
 
-    //Позиция углов  по осям у взятого щбъекта
-    private float _objectAnglePositionX;
-    private float _objectAnglePositionY;
-    private float _objectAnglePositionZ;
-
     //Переменные луча
     private Ray _ray;
     private RaycastHit _raycastHit;
@@ -98,10 +93,6 @@ public class Interactible : MonoBehaviour
         {
             _isRotationItem = true; //Предмет в режиме вращения
             _tempCube.transform.position = _itemRotationPosition.position;  //Помещаем предмет перед игроком
-            //Фиксируем начальные координаты углов предмета
-            _objectAnglePositionX = _tempCube.transform.localEulerAngles.x;
-            _objectAnglePositionY = _tempCube.transform.localEulerAngles.y;
-            _objectAnglePositionZ = _tempCube.transform.localEulerAngles.z;
             Debug.Log("Выбрана Ось X");
         }
         //Для выхода из режима вращения проверяем нажатие правого клика, предмет руках, предмет вращается
@@ -123,9 +114,6 @@ public class Interactible : MonoBehaviour
                 case RotationAxis.X:
                 { 
                     _currentRotationAxis++; //Выбираем следующую ось в перечислении осей
-                    //Фиксируем координы углов объекта которые не будут меняться относительно выбранной оси
-                    _objectAnglePositionX = _tempCube.transform.localEulerAngles.x;
-                    _objectAnglePositionZ = _tempCube.transform.localEulerAngles.z;
                     Debug.Log("Выбрана Ось Y");
                 } 
                 break;
@@ -133,8 +121,6 @@ public class Interactible : MonoBehaviour
                 case RotationAxis.Y:
                 { 
                     _currentRotationAxis++;
-                    _objectAnglePositionX = _tempCube.transform.localEulerAngles.x;
-                    _objectAnglePositionY = _tempCube.transform.localEulerAngles.y;
                     Debug.Log("Выбрана Ось Z");
                 }
                 break;
@@ -142,8 +128,6 @@ public class Interactible : MonoBehaviour
                 case RotationAxis.Z:
                 { 
                     _currentRotationAxis = 0;
-                    _objectAnglePositionY = _tempCube.transform.localEulerAngles.y;
-                    _objectAnglePositionZ = _tempCube.transform.localEulerAngles.z;
                     Debug.Log("Выбрана Ось X");
                 }
                 break;
@@ -164,23 +148,11 @@ public class Interactible : MonoBehaviour
                 //Вращаем объект согласно выбранной оси
                 switch (_currentRotationAxis)
                 {
-                    case RotationAxis.X:
-                    {
-                        _objectAnglePositionX += _directionMouseScroll * _rotationSpeed; //Получаем смещение угла поворота объекта на выбранной оси
-                        _tempCube.transform.localRotation = Quaternion.Euler(_objectAnglePositionX, _objectAnglePositionY, _objectAnglePositionZ);   //Вращаем объект                 
-                    }
+                    case RotationAxis.X: _tempCube.transform.Rotate(Vector3.right * _rotationSpeed * _directionMouseScroll); //Вращаем объект                    
                     break;
-                    case RotationAxis.Y:
-                    {
-                        _objectAnglePositionY += _directionMouseScroll * _rotationSpeed;
-                        _tempCube.transform.localRotation = Quaternion.Euler(_objectAnglePositionX, _objectAnglePositionY, _objectAnglePositionZ); 
-                    }
+                    case RotationAxis.Y: _tempCube.transform.Rotate(Vector3.up * _rotationSpeed * _directionMouseScroll);
                     break;
-                    case RotationAxis.Z:
-                    {
-                        _objectAnglePositionZ += _directionMouseScroll * _rotationSpeed;
-                        _tempCube.transform.localRotation = Quaternion.Euler(_objectAnglePositionX, _objectAnglePositionY, _objectAnglePositionZ);
-                    }
+                    case RotationAxis.Z: _tempCube.transform.Rotate(Vector3.forward * _rotationSpeed * _directionMouseScroll);
                     break;
                 }                
             }    
